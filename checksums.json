@@ -1,0 +1,8 @@
+{
+  "payloads/hekate_ctcaer_6.5.4.bin": "95f6e933e32e028f3ae90f0b0857ff47800e834bdace38a0ab019d8ed35a8c24",
+  "downloads/hekate_ctcaer_6.5.4_Nyx_1.9.4.zip": "a5ee4faa956f1ffe49fdd31d795be3fd556c8dffd9cbed69cec7cff92b8b43f6",
+  "downloads/atmosphere-1.12.1.zip": "f42161b3bce11442ea487eb84811013cf0e5ba571a7964323e206990b341a297",
+  "payloads/fusee-1.12.1.bin": "6559017e4df5ac418ce09fb347c32d071649f8b6d3d4bac9a874505fc8bed1bd",
+  "vendor/fusee_launcher.py": "53050630b6100566ea79c53b9c7d7ce0054434b6adec156e5025cf3b4ced9509",
+  "vendor/intermezzo.bin": "8517c0cb36ecb0b53129ae15269cf7f28a4f48ea599e8b6fc4cb8ead96ea3dfa"
+}

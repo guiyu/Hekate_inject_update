@@ -1,0 +1,2 @@
+# Preserve the pinned upstream source byte-for-byte, including its original whitespace.
+vendor/fusee_launcher.py -whitespace

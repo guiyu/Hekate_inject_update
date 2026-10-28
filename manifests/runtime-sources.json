@@ -1,0 +1,14 @@
+{
+  "vendor/intermezzo.bin": {
+    "url": "https://raw.githubusercontent.com/nh-server/fusee-interfacee-tk/fc1497e30c95db83d112899de22057590f039940/intermezzo.bin",
+    "sha256": "8517c0cb36ecb0b53129ae15269cf7f28a4f48ea599e8b6fc4cb8ead96ea3dfa"
+  },
+  "payloads/hekate_ctcaer_6.5.4.bin": {
+    "url": "https://github.com/CTCaer/hekate/releases/download/v6.5.4/hekate_ctcaer_6.5.4.bin",
+    "sha256": "95f6e933e32e028f3ae90f0b0857ff47800e834bdace38a0ab019d8ed35a8c24"
+  },
+  "payloads/fusee-1.12.1.bin": {
+    "url": "https://github.com/Atmosphere-NX/Atmosphere/releases/download/1.12.1/fusee.bin",
+    "sha256": "6559017e4df5ac418ce09fb347c32d071649f8b6d3d4bac9a874505fc8bed1bd"
+  }
+}
