@@ -16,6 +16,8 @@ ROOT=Path(__file__).resolve().parents[1]
 
 def run(args,**kw):subprocess.run([str(x) for x in args],check=True,**kw)
 def main():
+    from apps.build_support import configure_console
+    configure_console()
     p=argparse.ArgumentParser();p.add_argument('--sdk');p.add_argument('--ndk');args=p.parse_args()
     sdk=Path(args.sdk or os.environ.get('ANDROID_HOME') or os.environ.get('ANDROID_SDK_ROOT') or Path.home()/'Library/Android/sdk')
     ndk=Path(args.ndk or os.environ.get('ANDROID_NDK_HOME') or ROOT/'build/android-sdk/ndk/27.2.12479018')

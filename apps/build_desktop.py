@@ -9,6 +9,8 @@ from apps.prepare_app_resources import make as resources
 ROOT=Path(__file__).resolve().parents[1]
 
 def main():
+    from apps.build_support import configure_console
+    configure_console()
     system=platform.system()
     if system not in ('Darwin','Windows'):raise SystemExit('Build on macOS or Windows')
     icons();resources()
