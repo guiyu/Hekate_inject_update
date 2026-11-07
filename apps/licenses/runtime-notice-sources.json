@@ -1,0 +1,6 @@
+{
+  "Python-LICENSE.txt": "https://raw.githubusercontent.com/python/cpython/3.11/LICENSE",
+  "Tcl-license.terms": "https://raw.githubusercontent.com/tcltk/tcl/core-8-6-branch/license.terms",
+  "Tk-license.terms": "https://raw.githubusercontent.com/tcltk/tk/core-8-6-branch/license.terms",
+  "libusb-LGPL-2.1.txt": "https://raw.githubusercontent.com/libusb/libusb/v1.0.30/COPYING"
+}

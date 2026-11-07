@@ -18,6 +18,14 @@ def check_pe_x64(data):
     if offset+6>len(data) or data[offset:offset+4]!=b'PE\0\0' or struct.unpack_from('<H',data,offset+4)[0]!=0x8664:
         raise ValueError('Expected Windows AMD64 DLL')
 
+REQUIRED_NOTICES = ('Python-LICENSE.txt', 'Tcl-license.terms', 'Tk-license.terms', 'libusb-LGPL-2.1.txt')
+
+def verify_notices(directory):
+    for name in REQUIRED_NOTICES:
+        path=Path(directory)/name
+        if not path.is_file() or path.stat().st_size==0:
+            raise ValueError('Missing bundled runtime notice: '+name)
+
 def make(windows=None):
     prepare(ROOT)
     dest=ROOT/'apps/resources';dest.mkdir(parents=True,exist_ok=True)
@@ -27,7 +35,8 @@ def make(windows=None):
     shutil.copy2(ROOT/'LICENSE',notices/'PROJECT-GPL-2.0.txt')
     for f in (ROOT/'apps/licenses').iterdir():
         if f.is_file(): shutil.copy2(f,notices/f.name)
-    (notices/'SOURCES.txt').write_text('Hekate 6.5.4 (GPL-2.0): https://github.com/CTCaer/hekate/tree/v6.5.4\nIntermezzo (GPL-2.0): https://github.com/nh-server/fusee-interfacee-tk/tree/fc1497e30c95db83d112899de22057590f039940\nlibusbK 3.1.0.0 (LGPL-3.0 / BSD components): https://github.com/mcuee/libusbk/releases/tag/V3.1.0.0\nCorresponding libusbK source: https://github.com/mcuee/libusbk/releases/download/V3.1.0.0/libusbK-3.1.0.0-src.7z\nProject source and build scripts: https://github.com/guiyu/Hekate_inject_update\n',encoding='utf-8')
+    (notices/'SOURCES.txt').write_text('Hekate 6.5.4 (GPL-2.0): https://github.com/CTCaer/hekate/tree/v6.5.4\nIntermezzo (GPL-2.0): https://github.com/nh-server/fusee-interfacee-tk/tree/fc1497e30c95db83d112899de22057590f039940\nlibusbK 3.1.0.0 (LGPL-3.0 / BSD components): https://github.com/mcuee/libusbk/releases/tag/V3.1.0.0\nCorresponding libusbK source: https://github.com/mcuee/libusbk/releases/download/V3.1.0.0/libusbK-3.1.0.0-src.7z\nCPython runtime license: apps/licenses/Python-LICENSE.txt; https://github.com/python/cpython/tree/3.11\nTcl/Tk 8.6 runtime licenses: apps/licenses/Tcl-license.terms and Tk-license.terms; https://github.com/tcltk\nlibusb 1.0.30 (LGPL-2.1): https://github.com/libusb/libusb/releases/tag/v1.0.30 ; source https://github.com/libusb/libusb/archive/refs/tags/v1.0.30.tar.gz\nProject source and build scripts: https://github.com/guiyu/Hekate_inject_update\n',encoding='utf-8')
+    verify_notices(notices)
     for name in ('pyusb','libusb-package','pyinstaller','certifi','pillow'):
         dist=importlib.metadata.distribution(name)
         for f in dist.files or []:

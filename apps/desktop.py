@@ -90,6 +90,8 @@ def main():
     args=p.parse_args();resources=runtime_root()
     if args.self_test:
         payload,relocator=verified_resources(resources)
+        for name in ('Python-LICENSE.txt','Tcl-license.terms','Tk-license.terms','libusb-LGPL-2.1.txt'):
+            if not (resources/'licenses'/name).is_file():raise RuntimeError('Missing notice: '+name)
         if platform.system()=='Windows':load_windows_library(resources)
         else:
             import libusb_package

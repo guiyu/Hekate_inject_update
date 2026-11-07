@@ -21,6 +21,6 @@ try{PayloadBuilder.build(new byte[200000],new byte[1]);throw new AssertionError(
 try{PayloadBuilder.build(new byte[1],new byte[0xe41]);throw new AssertionError("relocator accepted");}catch(IllegalArgumentException expected){}
 }}''')
             source=ROOT/'apps/android/app/src/main/java/io/github/guiyu/hekate/PayloadBuilder.java'
-            subprocess.run(['javac','-d',t,str(source),str(p/'Vector.java')],check=True,capture_output=True)
+            subprocess.run(['javac','-encoding','UTF-8','-d',t,str(source),str(p/'Vector.java')],check=True,capture_output=True)
             subprocess.run(['java','-cp',t,'Vector',str(p/'payload')],check=True,capture_output=True)
             self.assertEqual((p/'payload').read_bytes(),build_payload(bytes(range(256))*80,b'RELOCATOR'))

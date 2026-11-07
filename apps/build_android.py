@@ -30,7 +30,7 @@ def main():
     run([tools/('aapt2'+suffix),'link','-I',jar,'--manifest',source/'AndroidManifest.xml','-o',base,build/'resources.zip'])
     classes=build/'classes';classes.mkdir(exist_ok=True)
     java=sorted((source/'java').rglob('*.java'))
-    run(['javac','-source','8','-target','8','-classpath',jar,'-d',classes,*java])
+    run(['javac','-encoding','UTF-8','-source','8','-target','8','-classpath',jar,'-d',classes,*java])
     dex=build/'dex';dex.mkdir(exist_ok=True)
     d8=tools/('d8.bat' if platform.system()=='Windows' else 'd8')
     run([d8,'--min-api','26','--lib',jar,'--output',dex,*sorted(classes.rglob('*.class'))])
