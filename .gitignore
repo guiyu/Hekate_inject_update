@@ -34,3 +34,23 @@ BOOT1
 *.p12
 *.pfx
 *.dylib
+
+# App build outputs, local signing material and execution scratch
+/.build-venv/
+/build/
+/dist/
+/.superpowers/
+/apps/resources/
+/apps/icons/
+/apps/android/app/src/main/assets/
+/apps/android/app/src/main/jniLibs/
+*.spec
+*.jks
+*.keystore
+*.apk
+*.exe
+*.dll
+/apps/android/app/src/main/res/mipmap-*/
+
+/.venv
+/payloads

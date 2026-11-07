@@ -1,0 +1,86 @@
+name: Build injector applications
+on:
+  push:
+    branches: [main, codex/injector-apps]
+    paths: ['apps/**', 'tests/**', '.github/workflows/apps.yml', 'requirements.txt', 'manifests/runtime-sources.json', 'docs/apps*', 'docs/release-1.0.0.md']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  desktop:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            label: Windows-x64
+          - os: macos-15-intel
+            label: macOS-Intel
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          architecture: x64
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - run: python -m pip install -r apps/requirements-build.txt
+      - run: python -m unittest discover -s tests -v
+      - run: python -m apps.build_desktop
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Hekate-Injector-${{ matrix.label }}
+          path: dist/Hekate-Injector-*.zip
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        with:
+          name: verification-${{ matrix.label }}
+          path: build/desktop-*-test.json
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - run: python -m pip install -r apps/requirements-build.txt
+      - run: python -m unittest discover -s tests -v
+      - name: Install official Android tools
+        run: sdkmanager 'platforms;android-35' 'build-tools;35.0.0' 'ndk;27.2.12479018'
+      - run: python -m apps.build_android --ndk "$ANDROID_HOME/ndk/27.2.12479018"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Hekate-Injector-Android
+          path: dist/Hekate-Injector-Android.apk
+          if-no-files-found: error
+  release:
+    if: github.ref == 'refs/heads/main'
+    needs: [desktop, android]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: Hekate-Injector-*
+          path: release
+          merge-multiple: true
+      - name: Publish reviewed packages
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd release
+          sha256sum Hekate-Injector-* > SHA256SUMS.txt
+          if gh release view v1.0.0 --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo 'Release v1.0.0 already exists; refusing to overwrite published assets.'
+            exit 1
+          fi
+          gh release create v1.0.0 Hekate-Injector-* SHA256SUMS.txt --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --title 'Hekate Injector 1.0.0 · Windows / Android / macOS' --notes-file ../docs/release-1.0.0.md --prerelease

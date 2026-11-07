@@ -4,6 +4,12 @@
 
 **可日常使用的入口是 `inject.command`。维护脚本是固定路径的一次性会话工具，不是通用一键刷机程序。**
 
+## 带图标的应用版本
+
+新增中文图形应用：Windows x64、Android 8.0+ 和 macOS Intel，内置 Hekate 6.5.4。下载和使用请看 [GitHub Release](https://github.com/guiyu/Hekate_inject_update/releases) 与 [应用安装/构建说明](docs/apps.md)。iOS 按确认的范围不提供。
+
+应用的构建、窗口启动和资源校验，与实际 Switch 启动是两项验收；Windows/Android 尚未完成真机注入测试。原命令行入口继续保留。
+
 ## 当前验证状态
 
 截至 2026-10-28，本次设备实测结果：
